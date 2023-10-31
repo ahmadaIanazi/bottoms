@@ -1,165 +1,113 @@
-// import type React from 'react';
-// import type {
-//   FlatList,
-//   ScrollView,
-//   SectionList,
-//   NativeScrollEvent,
-//   NativeSyntheticEvent,
-// } from 'react-native';
-// import type {
-//   GestureEventPayload,
-//   PanGestureHandlerEventPayload,
-// } from 'react-native-gesture-handler';
-// import type {
-//   SharedValue,
-//   WithSpringConfig,
-//   WithTimingConfig,
-// } from 'react-native-reanimated';
-// import type { GESTURE_SOURCE } from './constants';
+import React, { ReactNode } from 'react';
 
-// //#region Methods
-// export interface BottomSheetMethods {
-//   /**
-//    * Snap to one of the provided points from `snapPoints`.
-//    * @param index snap point index.
-//    * @param animationConfigs snap animation configs.
-//    *
-//    * @see {WithSpringConfig}
-//    * @see {WithTimingConfig}
-//    */
-//   snapToIndex: (
-//     index: number,
-//     animationConfigs?: WithSpringConfig | WithTimingConfig
-//   ) => void;
-//   /**
-//    * Snap to a position out of provided  `snapPoints`.
-//    * @param position position in pixel or percentage.
-//    * @param animationConfigs snap animation configs.
-//    *
-//    * @see {WithSpringConfig}
-//    * @see {WithTimingConfig}
-//    */
-//   snapToPosition: (
-//     position: number | string,
-//     animationConfigs?: WithSpringConfig | WithTimingConfig
-//   ) => void;
-//   /**
-//    * Snap to the maximum provided point from `snapPoints`.
-//    * @param animationConfigs snap animation configs.
-//    *
-//    * @see {WithSpringConfig}
-//    * @see {WithTimingConfig}
-//    */
-//   expand: (animationConfigs?: WithSpringConfig | WithTimingConfig) => void;
-//   /**
-//    * Snap to the minimum provided point from `snapPoints`.
-//    * @param animationConfigs snap animation configs.
-//    *
-//    * @see {WithSpringConfig}
-//    * @see {WithTimingConfig}
-//    */
-//   collapse: (animationConfigs?: WithSpringConfig | WithTimingConfig) => void;
-//   /**
-//    * Close the bottom sheet.
-//    * @param animationConfigs snap animation configs.
-//    *
-//    * @see {WithSpringConfig}
-//    * @see {WithTimingConfig}
-//    */
-//   close: (animationConfigs?: WithSpringConfig | WithTimingConfig) => void;
-//   /**
-//    * Force close the bottom sheet, this prevent any interruptions till the sheet is closed.
-//    * @param animationConfigs snap animation configs.
-//    *
-//    * @see {WithSpringConfig}
-//    * @see {WithTimingConfig}
-//    */
-//   forceClose: (animationConfigs?: WithSpringConfig | WithTimingConfig) => void;
-// }
-// export interface BottomSheetModalMethods extends BottomSheetMethods {
-//   /**
-//    * Mount and present the bottom sheet modal to the initial snap point.
-//    * @param data to be passed to the modal.
-//    */
-//   present: (data?: any) => void;
-//   /**
-//    * Close and unmount the bottom sheet modal.
-//    * @param animationConfigs snap animation configs.
-//    *
-//    * @see {WithSpringConfig}
-//    * @see {WithTimingConfig}
-//    */
-//   dismiss: (animationConfigs?: WithSpringConfig | WithTimingConfig) => void;
-// }
-// //#endregion
+// # useBottomsStore
 
-// export interface BottomSheetVariables {
-//   /**
-//    * Current sheet position index.
-//    * @type SharedValue<number>
-//    */
-//   animatedIndex: SharedValue<number>;
-//   /**
-//    * Current sheet position.
-//    * @type SharedValue<number>
-//    */
-//   animatedPosition: SharedValue<number>;
-// }
+declare module 'bottoms' {
+  export type RouteNames = keyof typeof routesComponentsObject;
 
-// //#region scrollables
-// export type Scrollable = FlatList | ScrollView | SectionList;
-// export type ScrollableRef = {
-//   id: number;
-//   node: React.RefObject<Scrollable>;
-// };
-// export type ScrollableEvent = (
-//   event: Pick<NativeSyntheticEvent<NativeScrollEvent>, 'nativeEvent'>
-// ) => void;
-// //#endregion
+  export interface BottomState {
+    open: boolean;
+    data: any | null;
+    route: 'none' | RouteNames;
+  }
 
-// //#region utils
-// export type Primitive = string | number | boolean;
-// export interface Insets {
-//   top: number;
-//   bottom: number;
-//   left: number;
-//   right: number;
-// }
-// //#endregion
+  export interface RouteState {
+    name: string;
+    component: React.ReactNode;
+  }
 
-// //#region hooks
-// export type GestureEventPayloadType = GestureEventPayload &
-//   PanGestureHandlerEventPayload;
+  export interface RoutesAndComponents {
+    [route: string]: React.ReactNode;
+  }
 
-// export type GestureEventContextType = {
-//   didStart?: boolean;
-// };
+  export interface BottomRouteUpdate {
+    bottomState: BottomState;
+    setBottom: (res: BottomState) => void;
+    bottom: {
+      open: (route: 'none' | RouteNames, data?: any | null) => void;
+      close: () => void;
+    };
+    defaultState: BottomState;
+    routeComponents: RoutesAndComponents;
+    routesArray: string[];
+    setRouteComponents: (res: any) => void;
+    setRoutesArray: (res: any) => void;
+  }
 
-// export type GestureEventHandlerCallbackType<C = any> = (
-//   source: GESTURE_SOURCE,
-//   payload: GestureEventPayloadType,
-//   context: C
-// ) => void;
+  export const useBottomStore: (
+    set: (fn: (state: BottomRouteUpdate) => BottomRouteUpdate) => void,
+    get: () => BottomRouteUpdate
+  ) => BottomRouteUpdate;
 
-// export type GestureEventsHandlersHookType = () => {
-//   handleOnStart: GestureEventHandlerCallbackType;
-//   handleOnActive: GestureEventHandlerCallbackType;
-//   handleOnEnd: GestureEventHandlerCallbackType;
-// };
+  export const bottom: {
+    open: (route: 'none' | RouteNames, data?: any | null) => void;
+    close: () => void;
+  };
 
-// type ScrollEventHandlerCallbackType<C = any> = (
-//   payload: NativeScrollEvent,
-//   context: C
-// ) => void;
+  export const routesComponentsObject: RoutesAndComponents;
+}
 
-// export type ScrollEventsHandlersHookType = (
-//   ref: React.RefObject<Scrollable>,
-//   contentOffsetY: SharedValue<number>
-// ) => {
-//   handleOnScroll?: ScrollEventHandlerCallbackType;
-//   handleOnBeginDrag?: ScrollEventHandlerCallbackType;
-//   handleOnEndDrag?: ScrollEventHandlerCallbackType;
-//   handleOnMomentumBegin?: ScrollEventHandlerCallbackType;
-//   handleOnMomentumEnd?: ScrollEventHandlerCallbackType;
-// };
-// //#endregion
+// # config
+
+// types/types.d.ts
+
+declare module '@gorhom/bottom-sheet' {
+
+  interface BottomSheetConfigProps {
+    snapPoints: string[];
+    index: number;
+    overDragResistanceFactor: number;
+    enableOverDrag: boolean;
+    handleStyle: {
+      height: number;
+      borderTopRightRadius: number;
+      borderTopLeftRadius: number;
+      // backgroundColor: string;
+    };
+    onChange: (index: number) => void;
+    backdropComponent: React.ReactNode | null;
+    enablePanDownToClose: boolean;
+    backgroundStyle: {
+      // backgroundColor: string;
+      borderRadius: number;
+    };
+  }
+
+  export default function BottomSheetConfig(props: BottomSheetConfigProps): React.JSX.Element;
+
+  interface BottomSheetBackdropProps {
+    enableTouchThrough: boolean;
+    opacity: number;
+    disappearsOnIndex: number;
+    appearsOnIndex: number;
+    onPress: () => void;
+  }
+
+  export function BottomSheetBackdrop(props: BottomSheetBackdropProps): React.JSX.Element;
+
+  interface BottomSheetScrollViewProps {
+    // Define your props types here
+  }
+
+  export function BottomSheetScrollView(props: BottomSheetScrollViewProps): React.JSX.Element;
+}
+
+
+// # react component
+
+interface SheetProps {
+  name: string;
+  component: () => ReactNode;
+}
+
+export declare const Bottom: React.FC<{ children: ReactNode }>;
+
+export declare const Sheet: React.FC<SheetProps>;
+
+// # Provider
+
+interface ModalProviderProps {
+  children: ReactNode;
+}
+
+export declare const BottomsProvider: React.FC<ModalProviderProps>;

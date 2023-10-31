@@ -1,9 +1,10 @@
 {
   "name": "bottoms",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "A wrapper performant interactive bottom sheet with fully configurable options and simple to use🚀",
   "main": "index.",  
   "module": "index.ts",
+  "types": "src/types.d.ts",
   "react-native": "index.ts",
   "files": [
     "src",
@@ -40,10 +41,6 @@
     "release": "rm -rf lib && yarn build && release-it",
     "example": "yarn --cwd example",
     "bootstrap": "yarn install && yarn example"
-  },
-  "dependencies": {
-    "@gorhom/portal": "1.0.14",
-    "invariant": "^2.2.4"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.7.1",
@@ -88,14 +85,5 @@
     "@types/react": {
       "optional": true
     }
-  },
-  "react-native-builder-bob": {
-    "source": "src",
-    "output": "lib",
-    "targets": [
-      "commonjs",
-      "module",
-      "typescript"
-    ]
   }
 }
