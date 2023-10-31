@@ -1,14 +1,12 @@
 import { create } from 'zustand';
 import { ReactNode } from 'react';
-import { Types as TypesFromLayout } from '../(bottom)'
 
 type RouteNames = keyof typeof routesComponentsObject;
-type Types = { [K in keyof typeof TypesFromLayout]: void };
 
 export interface BottomState {
   open: boolean;
   data: any | null;
-  route: 'none' | Types | RouteNames;
+  route: 'none' | RouteNames;
 }
 
 export interface routeState {
@@ -24,7 +22,7 @@ export interface BottomRouteUpdate {
   bottomState: BottomState;
   setBottom: (res: BottomState) => void;
   bottom: {
-    open: (route: 'none' | Types | RouteNames, data?: any | null) => void;
+    open: (route: 'none' | RouteNames, data?: any | null) => void;
     close: () => void;
   };
   defaultState: BottomState;
@@ -53,7 +51,7 @@ export const useBottomStore = create<BottomRouteUpdate>((set, get) => ({
     });
   },
   bottom: {
-    open: (route: 'none' | Types | RouteNames, data: any | null = null) => {
+    open: (route: 'none' | RouteNames, data: any | null = null) => {
       set({
         bottomState: {
           open: true,

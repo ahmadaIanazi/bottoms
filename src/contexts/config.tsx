@@ -1,9 +1,6 @@
 import BottomSheet, { BottomSheetBackdrop, BottomSheetScrollView } from '@gorhom/bottom-sheet';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useBottomStore } from './useBottomStore';
-import Layout, { Types as TypesFromLayout } from '../(bottom)';
-
-type Types = (typeof TypesFromLayout)[number];
 
 const snapPoints: string[] = ['80%'];
 
@@ -19,7 +16,7 @@ export default function BottomSheetConfig() {
     }
   }, [bottomState]);
 
-
+  type RouteNames = keyof typeof routeComponents;
   // callbacks
   const handleSheetChanges = useCallback((index: number) => {
     if (index === -1) {
@@ -53,9 +50,7 @@ export default function BottomSheetConfig() {
     []
   );
 
-  // const Component = routeComponents['One'];
-
-  const renderContent = (route: 'none' | Types ) => {
+  const renderContent = (route: 'none' | RouteNames  ) => {
     const Component = routeComponents[route]
 
     let renderedComponent;
@@ -66,12 +61,7 @@ export default function BottomSheetConfig() {
       renderedComponent = Component;
     }
 
-    return (
-      <>
-        <Layout />
-        {renderedComponent || <></>}
-      </>
-    );
+    return renderedComponent || <></>
   };
 
 
