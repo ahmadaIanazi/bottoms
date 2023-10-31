@@ -1,5 +1,5 @@
-import BottomSheet, { BottomSheetBackdrop, BottomSheetScrollView } from '@gorhom/bottom-sheet';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import BottomSheet, { BottomSheetBackdrop } from '@gorhom/bottom-sheet';
+import React, { useCallback, useEffect, useRef } from 'react';
 import { useBottomStore } from './useBottomStore';
 
 const snapPoints: string[] = ['80%'];
@@ -50,6 +50,28 @@ export default function BottomSheetConfig() {
     []
   );
 
+  /* ===== Another Method to remove the need for Provider config={Layout}.
+  let UserLayout;
+  Method to dynamically let the user choose the Layout.
+  Issue with this method is that is very opinionated and user must have /app/(bottom)/index 
+  We will try to find a different method that works better.
+  
+  try {
+      UserLayout = require('../../../../app/(bottoms)/index').default;
+    
+    } catch (error) {
+        console.error('User-defined Layout component not found. Make sure to use <Bottom><Sheet /></Bottom> in directory: app/bottoms/index.tsx.');
+    }
+      
+      
+  return 
+  <>
+    {UserLayout ? <UserLayout /> : null}
+    {renderedComponent || null}
+  </>
+      
+  */
+
   const renderContent = (route: 'none' | RouteNames  ) => {
     const Component = routeComponents[route]
 
@@ -61,7 +83,7 @@ export default function BottomSheetConfig() {
       renderedComponent = Component;
     }
 
-    return renderedComponent || <></>
+    return renderedComponent || null
   };
 
 
