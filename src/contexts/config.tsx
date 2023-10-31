@@ -1,21 +1,17 @@
 import BottomSheet, { BottomSheetBackdrop, BottomSheetScrollView } from '@gorhom/bottom-sheet';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { useTheme } from 'react-native-paper';
-import { useUserStore } from '@/stores/useUserStore';
 import { useBottomStore } from './useBottomStore';
-import Layout, { Types as TypesFromLayout } from '@/app/(bottom)';
+import Layout, { Types as TypesFromLayout } from '../(bottom)';
 
 type Types = (typeof TypesFromLayout)[number];
 
 const snapPoints: string[] = ['80%'];
 
 export default function BottomSheetConfig() {
-  const colors = useTheme();
+
   const { routeComponents, defaultState, bottomState, setBottom } = useBottomStore();
 
-  const [modalHeaderColor, setModalHeaderColor] = useState(colors.colors.background);
   const bottomSheetRef = useRef<BottomSheet | null>(null);
-  const dark = useUserStore((state) => state.dark);
 
   useEffect(() => {
     if (bottomState?.open && bottomSheetRef?.current) {
@@ -23,9 +19,6 @@ export default function BottomSheetConfig() {
     }
   }, [bottomState]);
 
-  useEffect(() => {
-    setModalHeaderColor(colors.colors.background);
-  }, [dark]);
 
   // callbacks
   const handleSheetChanges = useCallback((index: number) => {
@@ -35,13 +28,11 @@ export default function BottomSheetConfig() {
   }, []);
 
   const closeModal = () => {
-    console.log('I AM THE ISSUE ==> closeModal');
     bottomSheetRef?.current?.close();
     setBottom(defaultState);
   };
 
   const onClose = () => {
-    console.log('I AM THE ISSUE ==> onClose');
     bottomSheetRef?.current?.close();
     setBottom(defaultState);
   };
@@ -96,13 +87,13 @@ export default function BottomSheetConfig() {
         height: 40,
         borderTopRightRadius: 20,
         borderTopLeftRadius: 20,
-        backgroundColor: modalHeaderColor,
+        // backgroundColor: modalHeaderColor,
       }}
       onChange={handleSheetChanges}
       backdropComponent={bottomState?.open ? renderBackdrop : null}
       enablePanDownToClose={true}
       backgroundStyle={{
-        backgroundColor: modalHeaderColor,
+        // backgroundColor: modalHeaderColor,
         borderRadius: 20,
       }}
     >

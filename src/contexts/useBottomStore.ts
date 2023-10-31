@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { ReactNode } from 'react';
-import { Types as TypesFromLayout } from '@/app/(bottom)'
+import { Types as TypesFromLayout } from '../(bottom)'
 
 type RouteNames = keyof typeof routesComponentsObject;
 type Types = { [K in keyof typeof TypesFromLayout]: void };
