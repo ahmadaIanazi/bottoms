@@ -1,11 +1,100 @@
 {
   "name": "bottoms",
-  "version": "1.0.0",
-  "description": "Bottom-sheet for React-native and Expo Router",
-  "main": "index.tsx",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "version": "0.0.5",
+  "description": "A wrapper performant interactive bottom sheet with fully configurable options and simple to use🚀",
+  "main": "lib/commonjs/index",
+  "module": "lib/module/index",
+  "types": "lib/typescript/index.d.ts",
+  "react-native": "src/index.ts",
+  "files": [
+    "src",
+    "lib",
+    "mock.js"
+  ],
+  "keywords": [
+    "react-native",
+    "ios",
+    "android",
+    "bottom-sheet",
+    "bottomsheet",
+    "reanimated",
+    "sheet",
+    "expo",
+    "expo-router",
+    "router",
+    "react-navigation"
+  ],
+  "repository": "https://github.com/ahmadaIanazi/bottoms",
+  "author": "Ahmad Alanazi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ahmadaIanazi/bottoms/issues"
   },
-  "author": "",
-  "license": "ISC"
+  "homepage": "https://github.com/ahmadaIanazi/bottoms",
+  "scripts": {
+    "typescript": "tsc --skipLibCheck --noEmit",
+    "lint": "eslint \"**/*.{js,ts,tsx}\"",
+    "build": "bob build && yarn copy-dts && yarn delete-dts.js && yarn delete-debug-view",
+    "copy-dts": "copyfiles -u 1 \"src/**/*.d.ts\" lib/typescript",
+    "delete-debug-view": "rm -r ./lib/commonjs/components/bottomSheetDebugView && rm -r ./lib/module/components/bottomSheetDebugView && rm -r ./lib/typescript/components/bottomSheetDebugView",
+    "delete-dts.js": "find ./lib/commonjs -name '*.d.js*' -delete && find ./lib/module -name '*.d.js*' -delete",
+    "release": "rm -rf lib && yarn build && release-it",
+    "example": "yarn --cwd example",
+    "bootstrap": "yarn install && yarn example"
+  },
+  "dependencies": {
+    "@gorhom/portal": "1.0.14",
+    "invariant": "^2.2.4"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^17.7.1",
+    "@commitlint/config-conventional": "^17.7.0",
+    "@react-native-community/eslint-config": "^3.0.0",
+    "@release-it/conventional-changelog": "^7.0.1",
+    "@types/invariant": "^2.2.34",
+    "@types/react": "17.0.2",
+    "@types/react-native": "^0.67.7",
+    "auto-changelog": "^2.4.0",
+    "copyfiles": "^2.4.1",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^3.4.0",
+    "husky": "^4.3.8",
+    "lint-staged": "^11.1.2",
+    "prettier": "^2.3.2",
+    "react": "~16.9.0",
+    "react-native": "^0.62.2",
+    "react-native-builder-bob": "^0.18.1",
+    "react-native-gesture-handler": "^1.10.3",
+    "react-native-reanimated": "^2.8.0",
+    "@gorhom/bottom-sheet": ">=4.5.1",
+    "release-it": "^16.1.5",
+    "typescript": "^4.2.4"
+  },
+  "peerDependencies": {
+    "@types/react": "*",
+    "@types/react-native": "*",
+    "react": "*",
+    "react-native": "*",
+    "react-native-gesture-handler": ">=1.10.1",
+    "react-native-reanimated": ">=2.2.0",
+    "@gorhom/bottom-sheet": ">=4.5.1"
+  },
+  "peerDependenciesMeta": {
+    "@types/react-native": {
+      "optional": true
+    },
+    "@types/react": {
+      "optional": true
+    }
+  },
+  "react-native-builder-bob": {
+    "source": "src",
+    "output": "lib",
+    "targets": [
+      "commonjs",
+      "module",
+      "typescript"
+    ]
+  }
 }
