@@ -37,13 +37,13 @@ yarn add bottoms
 Please make sure to install the following dependencies in your project:
 
 ```sh
-npm install react-native-reanimated react-native-gesture-handler
+npm install react-native-reanimated react-native-gesture-handler @gorhom/bottom-sheet zustand
 ```
 
 or if you're using Expo:
 
 ```sh
-expo install react-native-reanimated react-native-gesture-handler
+npx expo install react-native-reanimated react-native-gesture-handler @gorhom/bottom-sheet zustand
 ```
 
 **Note:** React Native Gesture Handler and Reanimated may require additional configuration steps, so follow their installation instructions for compatibility.
@@ -58,7 +58,7 @@ For detailed usage examples and API documentation, refer to the [documentation](
 
 ## Support and Contributions
 
-If you find this module helpful, consider supporting its maintenance by sponsoring it on GitHub. For personalized support or customizations, feel free to reach out to us on Twitter [@your-twitter-handle](https://twitter.com/your-twitter-handle).
+If you find this module helpful, consider supporting its maintenance by sponsoring it on GitHub. For personalized support or customizations, feel free to reach out to us on X [@ahmad_alshbeeb](https://x.com/ahmad_aslhbeeb).
 
 ## License
 
@@ -66,4 +66,4 @@ This project is licensed under the [MIT License](LICENSE).
 
 ---
 
-Built with ❤️ by [Your Name](https://your-website-link-here)
+Built with ❤️ by Ahmad Alshbeeb ([x.com/ahmad_aslhbeeb](https://x.com/ahmad_aslhbeeb))

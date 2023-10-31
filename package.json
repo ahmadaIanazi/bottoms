@@ -2,10 +2,9 @@
   "name": "bottoms",
   "version": "0.0.7",
   "description": "A wrapper performant interactive bottom sheet with fully configurable options and simple to use🚀",
-  "main": "lib/commonjs/index",
-  "module": "lib/module/index",
-  "types": "lib/typescript/index.d.ts",
-  "react-native": "src/index.ts",
+  "main": "index.",  
+  "module": "index.ts",
+  "react-native": "index.ts",
   "files": [
     "src",
     "lib",
