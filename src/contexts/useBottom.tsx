@@ -1,56 +1,25 @@
 import React, { ReactNode, createContext, useContext, useState } from 'react'
-
-// Types and interfaces updates
-type RouteNames = string // Simplified for the example
-
-interface BottomState {
-  open: boolean
-  data: any | null
-  route: 'none' | RouteNames
-}
-
-interface ComponentConfig {
-  component: ReactNode
-  options?: object
-  backdropOptions?: object
-}
-
-interface RoutesAndComponents {
-  [route: string]: ComponentConfig
-}
-
-interface BottomContextType {
-  bottomState: BottomState
-  setBottom: (res: BottomState) => void
-  bottom: {
-    open: (route: 'none' | RouteNames, data?: any) => void
-    close: () => void
-  }
-  routeComponents: RoutesAndComponents
-  setRouteComponents: (routesAndComponents: RoutesAndComponents) => void
-  routesArray: string[]
-  setRoutesArray: (res: string[]) => void
-}
+import { BottomState, BottomContextType, RoutesAndComponents, RouteNames } from '../types.js'
 
 // Initial state
 const initialState: BottomContextType = {
   bottomState: { open: false, data: null, route: 'none' },
-  setBottom: () => { },
+  setBottom: () => {},
   bottom: {
-    open: () => { },
-    close: () => { },
+    open: () => {},
+    close: () => {},
   },
   routeComponents: {},
-  setRouteComponents: () => { },
+  setRouteComponents: () => {},
   routesArray: ['none'],
-  setRoutesArray: () => { },
+  setRoutesArray: () => {},
 }
 
 const BottomContext = createContext<BottomContextType>(initialState)
 
 let bottomControl = {
-  open: (route, data = null) => { },
-  close: () => { },
+  open: (route, data = null) => {},
+  close: () => {},
 }
 
 export const BottomProvider: React.FC<{ children: ReactNode }> = ({ children }) => {

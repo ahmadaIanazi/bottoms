@@ -1,6 +1,6 @@
 import BottomSheet, { BottomSheetBackdrop } from '@gorhom/bottom-sheet'
 import React, { useCallback, useEffect, useRef } from 'react'
-import { useBottom } from './useBottom.tsx'
+import { useBottom } from './useBottom'
 import { defaultBackdropOptions, defaultOptions } from '../constants/defaults'
 
 export default function BottomSheetConfig() {
@@ -66,6 +66,7 @@ export default function BottomSheetConfig() {
   }, [bottomState, setBottom])
 
   const renderBackdrop = useCallback((props: any) => <BottomSheetBackdrop {...props} {...finalBackdropOptions} onPress={handleCloseEnd} />, [])
+
 
 
   return (

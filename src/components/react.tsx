@@ -1,13 +1,9 @@
 import React, { ReactNode, Children, isValidElement, useEffect } from 'react'
-import { useBottom } from '../contexts/useBottom.tsx'
+import { useBottom } from '../contexts/useBottom'
 import { BottomProps, SheetProps } from '../types'
 import { defaultBackdropOptions, defaultOptions } from '../constants/defaults'
 
-export const Bottom: React.FC<{
-  children: ReactNode
-  options?: BottomProps['options']
-  backdropOptions?: BottomProps['backdropOptions']
-}> = ({ children, options, backdropOptions }) => {
+export const Bottom: React.FC<BottomProps> = ({ children, options, backdropOptions }) => {
   const { setRouteComponents, setRoutesArray, setGlobalOptions, setGlobalBackdropOptions } = useBottom()
 
   useEffect(() => {
