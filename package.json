@@ -1,6 +1,6 @@
 {
   "name": "bottoms",
-  "version": "0.1.2",
+  "version": "1.1.2",
   "description": "A wrapper performant interactive bottom sheet with fully configurable options and simple to use🚀",
   "main": "index.ts",
   "module": "index.ts",
