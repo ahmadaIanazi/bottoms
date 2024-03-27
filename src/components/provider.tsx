@@ -1,19 +1,25 @@
-import React, { ReactNode } from 'react';
-import Bottoms from '../contexts/config';
+import React, { ReactNode } from 'react'
+import Bottoms from '../contexts/config'
+import { BottomProvider } from '../contexts/useBottom'
 
 interface ModalProviderProps {
-  children: ReactNode;
-  config?: React.ComponentType; // Add a layout prop
+  children: ReactNode
+  config?: React.ComponentType // Add a layout prop
 }
 
-const BottomsProvider = ({ children, config: Layout }: ModalProviderProps): React.JSX.Element => {
+const BottomsProvider = ({
+  children,
+  config: Layout,
+}: ModalProviderProps): React.JSX.Element => {
   return (
     <>
-      {children}
-      {Layout && <Layout />}
-      <Bottoms />
+      <BottomProvider>
+        {children}
+        {Layout && <Layout />}
+        <Bottoms />
+      </BottomProvider>
     </>
-  );
+  )
 }
 
 export default BottomsProvider

@@ -1,98 +1,93 @@
-import { create } from 'zustand';
-import { ReactNode } from 'react';
+import React, { createContext, useContext, useState, ReactNode } from 'react'
+import { defaultBackdropOptions, defaultOptions } from '../constants/defaults'
 
-type RouteNames = keyof typeof routesComponentsObject;
+// Types and interfaces updates
+type RouteNames = string // Simplified for the example
 
-export interface BottomState {
-  open: boolean;
-  data: any | null;
-  route: 'none' | RouteNames;
+interface BottomState {
+  open: boolean
+  data: any | null
+  route: 'none' | RouteNames
 }
 
-export interface routeState {
-    name: string;
-    component: ReactNode
-  }
+interface ComponentConfig {
+  component: ReactNode
+  options?: object
+  backdropOptions?: object
+}
 
 interface RoutesAndComponents {
-  [route: string]: ReactNode;
+  [route: string]: ComponentConfig
 }
 
-export interface BottomRouteUpdate {
-  bottomState: BottomState;
-  setBottom: (res: BottomState) => void;
+interface BottomContextType {
+  bottomState: BottomState
+  setBottom: (res: BottomState) => void
   bottom: {
-    open: (route: 'none' | RouteNames, data?: any | null) => void;
-    close: () => void;
-  };
-  defaultState: BottomState;
-  routeComponents: RoutesAndComponents;
-  routesArray: string[];
-  setRouteComponents: (res: any) => void;
-  setRoutesArray: (res: any) => void;
+    open: (route: 'none' | RouteNames, data?: any) => void
+    close: () => void
+  }
+  routeComponents: RoutesAndComponents
+  setRouteComponents: (routesAndComponents: RoutesAndComponents) => void
+  routesArray: string[]
+  setRoutesArray: (res: string[]) => void
 }
 
-export const useBottomStore = create<BottomRouteUpdate>((set, get) => ({
-  bottomState: {
-    open: false,
-    data: null,
-    route: 'none',
-  },
-  setBottom: (res: BottomState) => {
-    set({ bottomState: res });
-  },
-  closeBottom: () => {
-    set({
-      bottomState: {
-        open: false,
-        data: null,
-        route: 'none',
-      },
-    });
-  },
+// Initial state
+const initialState: BottomContextType = {
+  bottomState: { open: false, data: null, route: 'none' },
+  setBottom: () => {},
   bottom: {
-    open: (route: 'none' | RouteNames, data: any | null = null) => {
-      set({
-        bottomState: {
-          open: true,
-          data: data,
-          route: route,
-        },
-      });
-    },
-    close: () => {
-      set({
-        bottomState: {
-          open: false,
-          data: null,
-          route: 'none',
-        },
-      });
-    },
+    open: () => {},
+    close: () => {},
   },
-  defaultState: {
-    open: false,
-    data: null,
-    route: 'none',
-  },
-
-  routesObject: {},
-  // setRoutesObject: (object) => {
-  //   set({ routesObject: object });
-  // },
-
+  routeComponents: {},
+  setRouteComponents: () => {},
   routesArray: ['none'],
-  setRoutesArray: (array) => {
-    set({ routesArray: array });
-  },
-  routeComponents: {
-    'none': null,
-  },
-  setRouteComponents: (object) => {
-    console.log('ROUTE COMPONENT:', object?.length);
-    set({ routeComponents: object });
-  },
-}));
+  setRoutesArray: () => {},
+}
 
-export const bottom = useBottomStore.getState().bottom;
-export const routesComponentsObject: any = useBottomStore.getState().routeComponents;
+const BottomContext = createContext<BottomContextType>(initialState)
+
+export const BottomProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+  const [bottomState, setBottomState] = useState<BottomState>(initialState.bottomState)
+  const [routeComponents, setRouteComponentsState] = useState<RoutesAndComponents>(initialState.routeComponents)
+  const [routesArray, setRoutesArrayState] = useState<string[]>(initialState.routesArray)
+  const [globalOptions, setGlobalOptionsState] = useState({})
+  const [globalBackdropOptions, setGlobalBackdropOptionsState] = useState({})
+
+  const setRouteComponents = (routesAndComponents: RoutesAndComponents) => {
+    setRouteComponentsState(routesAndComponents)
+  }
+
+  const setGlobalOptions = (options: any) => setGlobalOptionsState(options)
+  const setGlobalBackdropOptions = (backdropOptions: any) => setGlobalBackdropOptionsState(backdropOptions)
+
+  const setBottom = (newState: BottomState) => setBottomState(newState)
+
+  const openBottom = (route: 'none' | RouteNames, data: any = null) => {
+    setBottomState({ open: true, data, route })
+  }
+
+  const closeBottom = () => {
+    setBottomState({ open: false, data: null, route: 'none' })
+  }
+
+  const value = {
+    bottomState,
+    setBottom,
+    bottom: { open: openBottom, close: closeBottom },
+    routeComponents,
+    setRouteComponents,
+    routesArray,
+    setRoutesArray: setRoutesArrayState,
+    globalOptions,
+    setGlobalOptions,
+    globalBackdropOptions,
+    setGlobalBackdropOptions,
+  }
+
+  return <BottomContext.Provider value={value}>{children}</BottomContext.Provider>
+}
+
+export const useBottom = () => useContext(BottomContext)

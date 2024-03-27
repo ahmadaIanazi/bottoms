@@ -1,39 +1,50 @@
-import React, { ReactNode, Children, isValidElement, useEffect } from 'react';
-import { useBottomStore } from '../contexts/useBottomStore';
+import React, { ReactNode, Children, isValidElement, useEffect } from 'react'
+import { useBottom } from '../contexts/useBottom'
+import { BottomProps, SheetProps } from '../types'
+import { defaultBackdropOptions, defaultOptions } from '../constants/defaults'
 
-interface SheetProps {
-  name: string;
-  component: () => ReactNode;
-}
-
-export const Bottom: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const { setRouteComponents, setRoutesArray } = useBottomStore();
+export const Bottom: React.FC<{
+  children: ReactNode
+  options?: BottomProps['options']
+  backdropOptions?: BottomProps['backdropOptions']
+}> = ({ children, options, backdropOptions }) => {
+  const { setRouteComponents, setRoutesArray, setGlobalOptions, setGlobalBackdropOptions } = useBottom()
 
   useEffect(() => {
-    let updatedRouteComponents: { [name: string]: () => ReactNode } = {};
-    let routeNames: ('none' | string)[] = ['none'];
-
-    const validChildren = Children.toArray(children).filter(child => React.isValidElement(child));
-
-    if (validChildren.length > 0) {
-      validChildren.forEach((child) => {
-        const sheetProps = (child.props as SheetProps);
-        updatedRouteComponents[sheetProps.name] = sheetProps.component;
-        routeNames.push(sheetProps.name);
-      });
-      setRoutesArray(routeNames);
-      setRouteComponents(updatedRouteComponents);
-    } else {
-      // Handle the case when there are no valid children here
-      // You can set some default behavior or display an error message
+    // Merge options with defaults and set them globally
+    if (options) {
+      const mergedOptions = { ...defaultOptions, ...options }
+      setGlobalOptions(mergedOptions)
     }
-  }, []);
+    if (backdropOptions) {
+      const mergedBackdropOptions = { ...defaultBackdropOptions, ...backdropOptions }
+      setGlobalBackdropOptions(mergedBackdropOptions)
+    }
+  }, [options, backdropOptions])
 
-  return null;
-};
+  useEffect(() => {
+    let updatedRouteComponents = {}
+    let routeNames: ('none' | string)[] = ['none']
 
-export const Sheet: React.FC<SheetProps> = () => {
-  return null;
-};
+    Children.forEach(children, (child) => {
+      if (isValidElement(child) && child.props.name) {
+        const { name, component, options, backdropOptions } = child.props
+        updatedRouteComponents[name] = { component, options, backdropOptions }
+        routeNames.push(name)
+      }
+    })
+
+    setRoutesArray(routeNames)
+    setRouteComponents(updatedRouteComponents)
+  }, [children]) // Dependency on children to re-calculate when they change
+
+  return null // This component doesn't render anything itself
+}
+
+export const Sheet: React.FC<SheetProps> = ({ name, component, options, backdropOptions }) => {
+  // Sheet component is primarily used for its props in the context of Bottom component
+  // It doesn't render anything by itself
+  return null
+}
 
 export default Bottom

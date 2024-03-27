@@ -24,6 +24,8 @@ A versatile and interactive React Native module for creating performant bottom s
 
 To install "bottoms," use the following command:
 
+### 1
+
 ```sh
 npm install bottoms
 ```
@@ -33,6 +35,8 @@ or
 ```sh
 yarn add bottoms
 ```
+
+### 2
 
 Please make sure to install the following dependencies in your project:
 
@@ -51,8 +55,9 @@ npx expo install react-native-reanimated react-native-gesture-handler @gorhom/bo
 ## Usage
 
 1. Import the "bottoms" module in your React Native project.
-
 2. Use the provided hooks or methods to create and customize bottom sheets in your app.
+3. Wrap your entire app with this provider and pass the Layout component to it.
+4. Call 'bottom' to perform functions such as bottom.open('sheet')
 
 For detailed usage examples and API documentation, refer to the [documentation](https://your-documentation-link-here).
 

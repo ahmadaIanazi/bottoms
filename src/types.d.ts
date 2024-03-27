@@ -1,50 +1,50 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode } from 'react'
 
 // # useBottomsStore
 
 declare module 'bottoms' {
-  export type RouteNames = keyof typeof routesComponentsObject;
+  export type RouteNames = keyof typeof routesComponentsObject
 
   export interface BottomState {
-    open: boolean;
-    data: any | null;
-    route: 'none' | RouteNames;
+    open: boolean
+    data: any | null
+    route: 'none' | RouteNames
   }
 
   export interface RouteState {
-    name: string;
-    component: React.ReactNode;
+    name: string
+    component: React.ReactNode
   }
 
   export interface RoutesAndComponents {
-    [route: string]: React.ReactNode;
+    [route: string]: React.ReactNode
   }
 
   export interface BottomRouteUpdate {
-    bottomState: BottomState;
-    setBottom: (res: BottomState) => void;
+    bottomState: BottomState
+    setBottom: (res: BottomState) => void
     bottom: {
-      open: (route: 'none' | RouteNames, data?: any | null) => void;
-      close: () => void;
-    };
-    defaultState: BottomState;
-    routeComponents: RoutesAndComponents;
-    routesArray: string[];
-    setRouteComponents: (res: any) => void;
-    setRoutesArray: (res: any) => void;
+      open: (route: 'none' | RouteNames, data?: any | null) => void
+      close: () => void
+    }
+    defaultState: BottomState
+    routeComponents: RoutesAndComponents
+    routesArray: string[]
+    setRouteComponents: (res: any) => void
+    setRoutesArray: (res: any) => void
   }
 
   export const useBottomStore: (
     set: (fn: (state: BottomRouteUpdate) => BottomRouteUpdate) => void,
     get: () => BottomRouteUpdate
-  ) => BottomRouteUpdate;
+  ) => BottomRouteUpdate
 
   export const bottom: {
-    open: (route: 'none' | RouteNames, data?: any | null) => void;
-    close: () => void;
-  };
+    open: (route: 'none' | RouteNames, data?: any | null) => void
+    close: () => void
+  }
 
-  export const routesComponentsObject: RoutesAndComponents;
+  export const routesComponentsObject: RoutesAndComponents
 }
 
 // # config
@@ -52,62 +52,101 @@ declare module 'bottoms' {
 // types/types.d.ts
 
 declare module '@gorhom/bottom-sheet' {
-
   interface BottomSheetConfigProps {
-    snapPoints: string[];
-    index: number;
-    overDragResistanceFactor: number;
-    enableOverDrag: boolean;
+    snapPoints: string[]
+    index: number
+    overDragResistanceFactor: number
+    enableOverDrag: boolean
     handleStyle: {
-      height: number;
-      borderTopRightRadius: number;
-      borderTopLeftRadius: number;
+      height: number
+      borderTopRightRadius: number
+      borderTopLeftRadius: number
       // backgroundColor: string;
-    };
-    onChange: (index: number) => void;
-    backdropComponent: React.ReactNode | null;
-    enablePanDownToClose: boolean;
+    }
+    onChange: (index: number) => void
+    backdropComponent: React.ReactNode | null
+    enablePanDownToClose: boolean
     backgroundStyle: {
       // backgroundColor: string;
-      borderRadius: number;
-    };
+      borderRadius: number
+    }
   }
 
-  export default function BottomSheetConfig(props: BottomSheetConfigProps): React.JSX.Element;
+  export default function BottomSheetConfig(
+    props: BottomSheetConfigProps
+  ): React.JSX.Element
 
   interface BottomSheetBackdropProps {
-    enableTouchThrough: boolean;
-    opacity: number;
-    disappearsOnIndex: number;
-    appearsOnIndex: number;
-    onPress: () => void;
+    enableTouchThrough: boolean
+    opacity: number
+    disappearsOnIndex: number
+    appearsOnIndex: number
+    onPress: () => void
   }
 
-  export function BottomSheetBackdrop(props: BottomSheetBackdropProps): React.JSX.Element;
+  export function BottomSheetBackdrop(
+    props: BottomSheetBackdropProps
+  ): React.JSX.Element
 
   interface BottomSheetScrollViewProps {
     // Define your props types here
   }
 
-  export function BottomSheetScrollView(props: BottomSheetScrollViewProps): React.JSX.Element;
+  export function BottomSheetScrollView(
+    props: BottomSheetScrollViewProps
+  ): React.JSX.Element
 }
-
 
 // # react component
 
-interface SheetProps {
-  name: string;
-  component: () => ReactNode;
+interface Options {
+  snapPoints?: string[]
+  index?: number
+  overDragResistanceFactor?: number
+  enableOverDrag?: boolean
+  handleStyle?: {
+    height?: number
+    borderTopRightRadius?: number
+    borderTopLeftRadius?: number
+    backgroundColor?: string
+  }
+  onChange?: (index: number) => void
+  backdropComponent?: React.ReactNode | null
+  enablePanDownToClose?: boolean
+  backgroundStyle?: {
+    // backgroundColor: string;
+    borderRadius?: number
+  }
 }
 
-export declare const Bottom: React.FC<{ children: ReactNode }>;
+interface BackdropOptions {
+  enableTouchThrough?: boolean
+  opacity?: number
+  disappearsOnIndex?: number
+  appearsOnIndex?: number
+  onPress?: () => void
+}
 
-export declare const Sheet: React.FC<SheetProps>;
+interface BottomProps {
+  options?: Options
+  backdropOptions?: BackdropOptions
+}
+
+interface SheetProps {
+  name: string
+  component: React.ComponentType<any>
+  options?: Options
+  backdropOptions?: BackdropOptions
+}
+
+export declare const Bottom: React.FC<BottomProps>
+
+export declare const Sheet: React.FC<SheetProps>
 
 // # Provider
 
 interface ModalProviderProps {
-  children: ReactNode;
+  children: ReactNode
 }
 
-export declare const BottomsProvider: React.FC<ModalProviderProps>;
+export declare const BottomsProvider: React.FC<ModalProviderProps>
