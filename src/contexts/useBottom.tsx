@@ -1,5 +1,4 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react'
-import { defaultBackdropOptions, defaultOptions } from '../constants/defaults'
+import React, { ReactNode, createContext, useContext, useState } from 'react'
 
 // Types and interfaces updates
 type RouteNames = string // Simplified for the example
@@ -36,18 +35,23 @@ interface BottomContextType {
 // Initial state
 const initialState: BottomContextType = {
   bottomState: { open: false, data: null, route: 'none' },
-  setBottom: () => {},
+  setBottom: () => { },
   bottom: {
-    open: () => {},
-    close: () => {},
+    open: () => { },
+    close: () => { },
   },
   routeComponents: {},
-  setRouteComponents: () => {},
+  setRouteComponents: () => { },
   routesArray: ['none'],
-  setRoutesArray: () => {},
+  setRoutesArray: () => { },
 }
 
 const BottomContext = createContext<BottomContextType>(initialState)
+
+let bottomControl = {
+  open: (route, data = null) => { },
+  close: () => { },
+}
 
 export const BottomProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [bottomState, setBottomState] = useState<BottomState>(initialState.bottomState)
@@ -87,7 +91,15 @@ export const BottomProvider: React.FC<{ children: ReactNode }> = ({ children }) 
     setGlobalBackdropOptions,
   }
 
+  bottomControl.open = openBottom
+  bottomControl.close = closeBottom
+
   return <BottomContext.Provider value={value}>{children}</BottomContext.Provider>
 }
 
 export const useBottom = () => useContext(BottomContext)
+
+export const bottom = {
+  open: (route, data = null) => bottomControl.open(route, data),
+  close: () => bottomControl.close(),
+}

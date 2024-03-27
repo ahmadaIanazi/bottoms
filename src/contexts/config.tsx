@@ -1,6 +1,6 @@
 import BottomSheet, { BottomSheetBackdrop } from '@gorhom/bottom-sheet'
 import React, { useCallback, useEffect, useRef } from 'react'
-import { useBottom } from './useBottom'
+import { useBottom } from './useBottom.tsx'
 import { defaultBackdropOptions, defaultOptions } from '../constants/defaults'
 
 export default function BottomSheetConfig() {

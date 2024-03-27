@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react'
 import Bottoms from '../contexts/config'
-import { BottomProvider } from '../contexts/useBottom'
+import { BottomProvider } from '../contexts/useBottom.tsx'
 
 interface ModalProviderProps {
   children: ReactNode

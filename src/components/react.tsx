@@ -1,5 +1,5 @@
 import React, { ReactNode, Children, isValidElement, useEffect } from 'react'
-import { useBottom } from '../contexts/useBottom'
+import { useBottom } from '../contexts/useBottom.tsx'
 import { BottomProps, SheetProps } from '../types'
 import { defaultBackdropOptions, defaultOptions } from '../constants/defaults'
 
