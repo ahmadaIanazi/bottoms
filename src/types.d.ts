@@ -50,6 +50,7 @@ export interface BottomSheetConfigProps {
 }
 
 export interface BottomSheetBackdropProps {
+  hidden?: boolean
   enableTouchThrough: boolean
   opacity: number
   disappearsOnIndex: number

@@ -67,6 +67,7 @@ export default function BottomSheetConfig() {
 
   const renderBackdrop = useCallback((props: any) => <BottomSheetBackdrop {...props} {...finalBackdropOptions} onPress={handleCloseEnd} />, [])
 
+  const isBackdropHidden = () => finalBackdropOptions.hidden === true;
 
 
   return (
@@ -74,7 +75,7 @@ export default function BottomSheetConfig() {
       ref={bottomSheetRef}
       {...finalOptions}
       onChange={handleSheetChanges}
-      backdropComponent={bottomState.open ? renderBackdrop : undefined}
+      backdropComponent={!isBackdropHidden() && bottomState.open ? renderBackdrop : undefined}
       enablePanDownToClose={true}
       onClose={handleCloseEnd}
     >

@@ -21,6 +21,7 @@ export const defaultOptions = {
 export const defaultBackdropOptions = {
   // animatedPosition: true,
   // animatedIndex: true,
+  hidden: false,
   enableTouchThrough: false,
   opacity: 0.5,
   disappearsOnIndex: -1,
